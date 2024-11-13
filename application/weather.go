@@ -1,6 +1,9 @@
 package application
 
-import "errors"
+import (
+	"context"
+	"errors"
+)
 
 type Weather struct {
 	celsius    float64
@@ -9,6 +12,7 @@ type Weather struct {
 }
 
 type IWeatherRepository interface {
+	GetTemperature(ctx context.Context, coordinate *Coordinate) (*Weather, error)
 }
 
 func NewWeather(tempCelsius float64) (*Weather, error) {
