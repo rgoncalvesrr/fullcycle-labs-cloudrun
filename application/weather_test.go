@@ -2,17 +2,24 @@ package application_test
 
 import (
 	"github.com/rgoncalvesrr/fullcycle-labs-cloudrun/application"
+	"github.com/rgoncalvesrr/fullcycle-labs-cloudrun/pkg/weather"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestNewWeather(t *testing.T) {
-	w, e := application.NewWeather(0)
+	celsius := weather.Celsius(0.0)
+	expectedCelsius := float64(celsius)
+	expectedFahrenheit := celsius.ToFahrenheit()
+	expectedKelvin := celsius.ToKelvin()
+
+	w, e := application.NewWeather(celsius)
+
 	assert.Nil(t, e)
 	assert.NotNil(t, w)
-	assert.Equal(t, 0.0, w.Celsius())
-	assert.Equal(t, 273.15, w.Kelvin())
-	assert.Equal(t, 32.0, w.Fahrenheit())
+	assert.Equal(t, expectedCelsius, w.Celsius())
+	assert.Equal(t, expectedKelvin, w.Kelvin())
+	assert.Equal(t, expectedFahrenheit, w.Fahrenheit())
 }
 
 func TestNewWeatherShouldThrowError(t *testing.T) {
@@ -20,4 +27,5 @@ func TestNewWeatherShouldThrowError(t *testing.T) {
 	assert.Nil(t, w)
 	assert.NotNil(t, e)
 	assert.Equal(t, "temperature cannot be less than 273.15", e.Error())
+	assert.Equal(t, application.ErrInvalidTemperature, e)
 }

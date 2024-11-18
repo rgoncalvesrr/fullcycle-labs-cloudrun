@@ -1,17 +1,11 @@
 package application
 
-import "context"
-
 type Coordinate struct {
-	Latitude  float64
-	Longitude float64
+	Latitude  string
+	Longitude string
 }
 
-type ICoordinateRepository interface {
-	GetCoordinate(ctx context.Context, cep string) (*Coordinate, error)
-}
-
-func NewCoordinate(lat, lng float64) *Coordinate {
+func NewCoordinate(lat, lng string) *Coordinate {
 	return &Coordinate{
 		Latitude:  lat,
 		Longitude: lng,

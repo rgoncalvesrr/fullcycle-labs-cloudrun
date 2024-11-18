@@ -8,7 +8,6 @@ type WeatherOutput struct {
 	Kelvin     float64 `json:"temp_k"`
 }
 
-// https://cep.awesomeapi.com.br/json/09130220
 type IWeatherService interface {
 	GetTemperature(ctx context.Context, cep string) (*WeatherOutput, error)
 }
@@ -30,11 +29,13 @@ func NewWeatherService(
 
 func (w weatherService) GetTemperature(ctx context.Context, cep string) (*WeatherOutput, error) {
 	// Tenta obter a latitude e logitude
-	c, e := w.coordinateRepository.GetCoordinate(ctx, cep)
+	c, e := w.coordinateRepository.GetByCep(ctx, cep)
 
 	if e != nil {
 		return nil, e
 	}
+
+	// Tenta obter a temperatura
 	t, e := w.weatherRepository.GetTemperature(ctx, c)
 
 	if e != nil {

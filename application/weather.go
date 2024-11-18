@@ -1,25 +1,20 @@
 package application
 
 import (
-	"context"
-	"errors"
+	"github.com/rgoncalvesrr/fullcycle-labs-cloudrun/pkg/weather"
 )
 
 type Weather struct {
-	celsius    float64
+	celsius    weather.Celsius
 	fahrenheit float64
 	kelvin     float64
 }
 
-type IWeatherRepository interface {
-	GetTemperature(ctx context.Context, coordinate *Coordinate) (*Weather, error)
-}
-
-func NewWeather(tempCelsius float64) (*Weather, error) {
+func NewWeather(tempCelsius weather.Celsius) (*Weather, error) {
 	w := &Weather{
 		celsius:    tempCelsius,
-		kelvin:     tempCelsius + 273.15,
-		fahrenheit: tempCelsius*1.8 + 32,
+		kelvin:     tempCelsius.ToKelvin(),
+		fahrenheit: tempCelsius.ToFahrenheit(),
 	}
 
 	if e := w.validate(); e != nil {
@@ -30,7 +25,7 @@ func NewWeather(tempCelsius float64) (*Weather, error) {
 }
 
 func (w *Weather) Celsius() float64 {
-	return w.celsius
+	return float64(w.celsius)
 }
 
 func (w *Weather) Fahrenheit() float64 {
@@ -43,7 +38,7 @@ func (w *Weather) Kelvin() float64 {
 
 func (w *Weather) validate() error {
 	if w.celsius < -273.15 {
-		return errors.New("temperature cannot be less than 273.15")
+		return ErrInvalidTemperature
 	}
 
 	return nil
