@@ -15,15 +15,15 @@ type WeatherApiOutput struct {
 	}
 }
 
-type weatherRepository struct {
+type weatherServiceAdapter struct {
 	cfg *configs.Config
 }
 
-func NewWeatherRepository(cfg *configs.Config) application.IWeatherRepository {
-	return &weatherRepository{cfg: cfg}
+func NewWeatherServiceAdapter(cfg *configs.Config) application.IWeatherService {
+	return &weatherServiceAdapter{cfg: cfg}
 }
 
-func (w *weatherRepository) GetTemperature(ctx context.Context, coordinate *application.Coordinate) (*application.Weather, error) {
+func (w *weatherServiceAdapter) GetTemperature(ctx context.Context, coordinate *application.Coordinate) (*application.Weather, error) {
 	client := resty.New()
 	r, e := client.R().
 		SetContext(ctx).

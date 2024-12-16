@@ -9,9 +9,9 @@ import (
 	"testing"
 )
 
-func TestNewWeatherRepository(t *testing.T) {
+func Test_ShouldBeSuccess_WhenInstantiateNewWeatherServiceAdapter(t *testing.T) {
 	cord := application.NewCoordinate("-23.667", "-46.517")
-	r := adapter.NewWeatherRepository(configs.NewConfig(".."))
+	r := adapter.NewWeatherServiceAdapter(configs.NewConfig())
 	c, e := r.GetTemperature(context.Background(), cord)
 	assert.Nil(t, e)
 	assert.NotNil(t, r)

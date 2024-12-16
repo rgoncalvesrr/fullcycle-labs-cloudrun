@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestNewWeather(t *testing.T) {
+func Test_ShouldReturnSuccess_WhenNewWeather(t *testing.T) {
 	celsius := weather.Celsius(0.0)
 	expectedCelsius := float64(celsius)
 	expectedFahrenheit := celsius.ToFahrenheit()
@@ -22,10 +22,18 @@ func TestNewWeather(t *testing.T) {
 	assert.Equal(t, expectedFahrenheit, w.Fahrenheit())
 }
 
-func TestNewWeatherShouldThrowError(t *testing.T) {
+func Test_ShouldThrowError_WhenNewWeather(t *testing.T) {
 	w, e := application.NewWeather(-274)
 	assert.Nil(t, w)
 	assert.NotNil(t, e)
-	assert.Equal(t, "temperature cannot be less than 273.15", e.Error())
+	assert.Equal(t, application.ErrInvalidTemperature.Error(), e.Error())
+	assert.Equal(t, application.ErrInvalidTemperature, e)
+}
+
+func Test_ShouldThrowError_WhenInvalidCEP(t *testing.T) {
+	w, e := application.NewWeather(-274)
+	assert.Nil(t, w)
+	assert.NotNil(t, e)
+	assert.Equal(t, application.ErrInvalidTemperature.Error(), e.Error())
 	assert.Equal(t, application.ErrInvalidTemperature, e)
 }

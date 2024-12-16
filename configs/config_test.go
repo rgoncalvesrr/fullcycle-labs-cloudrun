@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestNewConfig(t *testing.T) {
-	c := configs.NewConfig("..")
+func Test_ShouldBeSuccess_WhenNewConfig(t *testing.T) {
+	c := configs.NewConfig()
 	assert.NotNil(t, c)
 }

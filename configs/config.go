@@ -11,28 +11,25 @@ type Config struct {
 	CepApiUrl     string `mapstructure:"CEP_API_URL"`
 }
 
-func NewConfig(path string) *Config {
-	//cfgFile := filepath.Join(path, "app.env")
+func NewConfig() *Config {
+	//cfgFile := filepath.Join(path, ".env")
 	viper.AddConfigPath(".")
 	viper.AddConfigPath("..")
 	viper.AddConfigPath("../..")
-	viper.AddConfigPath(path)
-	viper.SetConfigName("app")
+	viper.SetConfigName(".env")
 	viper.SetConfigType("env")
 	viper.AutomaticEnv()
 
-	//viper.addconfSetConfigFile(cfgFile)
-
 	e := viper.ReadInConfig()
 	if e != nil {
-		log.Fatal("Can't find the file app.env : ", e)
+		log.Fatal("Can't find the file .env : ", e)
 	}
 
 	var result Config
 
 	e = viper.Unmarshal(&result)
 	if e != nil {
-		log.Fatal("Can't unmarshal the file app.env : ", e)
+		log.Fatal("Can't unmarshal the file .env : ", e)
 	}
 
 	return &result

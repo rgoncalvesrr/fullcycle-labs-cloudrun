@@ -10,7 +10,7 @@ import (
 	"regexp"
 )
 
-type coordinateRepository struct {
+type coordinateServiceAdapter struct {
 	cfg *configs.Config
 }
 
@@ -19,11 +19,11 @@ type Output struct {
 	Lng string `json:"lng"`
 }
 
-func NewCoordinateRepository(config *configs.Config) application.ICoordinateRepository {
-	return &coordinateRepository{cfg: config}
+func NewCoordinateServiceAdapter(config *configs.Config) application.ICoordinateService {
+	return &coordinateServiceAdapter{cfg: config}
 }
 
-func (c *coordinateRepository) GetByCep(ctx context.Context, cep string) (*application.Coordinate, error) {
+func (c *coordinateServiceAdapter) GetByCep(ctx context.Context, cep string) (*application.Coordinate, error) {
 	url := fmt.Sprintf("%s/{cep}", c.cfg.CepApiUrl)
 
 	match, _ := regexp.MatchString("[0-9]{8}", cep)

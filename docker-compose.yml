@@ -4,6 +4,6 @@ services:
     environment:
       - WEATHER_API_KEY=${WEATHER_API_KEY}
     env_file:
-      - app.env
+      - .env
     ports:
       - "8080:8080"

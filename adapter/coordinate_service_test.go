@@ -8,8 +8,8 @@ import (
 	"testing"
 )
 
-func TestNewCoordinateRepository(t *testing.T) {
-	r := adapter.NewCoordinateRepository(configs.NewConfig(".."))
+func Test_ShouldBeSuccess_WhenInstanceNewCoordinateServiceAdapter(t *testing.T) {
+	r := adapter.NewCoordinateServiceAdapter(configs.NewConfig())
 	c, e := r.GetByCep(context.Background(), "09130220")
 
 	assert.NotNil(t, r)
