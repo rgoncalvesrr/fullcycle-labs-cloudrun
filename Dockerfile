@@ -12,8 +12,7 @@ FROM scratch
 
 WORKDIR /app
 
-COPY --from=build /app/api ./
-COPY --from=build /app/app.env ./
+COPY --from=build /app/api /app/app.env ./
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 EXPOSE 8080
